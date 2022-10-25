@@ -20,9 +20,4 @@ public class Benefit {
     private Long id;
     private String name;
 
-    public Benefit(Benefit.BenefitBuilder benefitBuilder) {
-        this.id = benefitBuilder.id;
-        this.name = benefitBuilder.name;
-    }
-
 }

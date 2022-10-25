@@ -33,6 +33,7 @@ public class BenefitService {
 
     public BenefitDTO getBenefitById (Long id){
         Benefit benefit = benefitRepository.findById(id).orElse(null);
+        assert benefit != null;
         return benefitMapper.entityToDto(benefit);
     }
 }
