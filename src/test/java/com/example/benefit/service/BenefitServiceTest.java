@@ -27,21 +27,21 @@ public class BenefitServiceTest {
 
     @BeforeEach
     void setUp() {
-        benefitMapper = new BenefitMapper();
+        benefitMapper = new BenefitMapper(new BenefitTypeMapper(), new CalculationMethodMapper());
         benefitService = new BenefitService(benefitRepository, benefitMapper);
     }
 
     @Test
     void createAndUpdateBenefit() {
-        BenefitDTO benefitDTO = new BenefitDTO(1L, "Salary", new BenefitType(1L, "Accrual"), new CalculationMethod(2L, "Gross"));
+        BenefitDTO benefitDTO = new BenefitDTO(1L, "Salary", new BenefitTypeDTO(1L, "Accrual"), new CalculationMethodDTO(2L, "Gross"));
         Mockito.when(benefitRepository.save(any())).thenAnswer(invocationOnMock -> invocationOnMock.getArgument(0));
 
         BenefitDTO actualDTO = benefitService.createAndUpdateBenefit(benefitDTO);
 
         Assertions.assertEquals(benefitDTO, actualDTO);
-        Assertions.assertEquals(benefitDTO.getBenefitType(), actualDTO.getBenefitType());
-        Assertions.assertEquals("Accrual", actualDTO.getBenefitType().getName());
-        Assertions.assertEquals("Gross", actualDTO.getCalculationMethod().getName());
+        Assertions.assertEquals(benefitDTO.getBenefitTypeDTO(), actualDTO.getBenefitTypeDTO());
+        Assertions.assertEquals("Accrual", actualDTO.getBenefitTypeDTO().getName());
+        Assertions.assertEquals("Gross", actualDTO.getCalculationMethodDTO().getName());
     }
 
     @Test
@@ -52,9 +52,8 @@ public class BenefitServiceTest {
 
 
         Assertions.assertEquals(2, benefitService.getAllBenefit().size());
-        Assertions.assertEquals(benefit1.getBenefitType().getName(), benefitService.getAllBenefit().stream().findFirst().get().getBenefitType().getName());
-        Assertions.assertEquals(benefit2.getCalculationMethod().getName(), benefitService.getAllBenefit().get(1).getCalculationMethod().getName());
-
+        Assertions.assertEquals(benefit1.getBenefitType().getName(), benefitService.getAllBenefit().stream().findFirst().get().getBenefitTypeDTO().getName());
+        Assertions.assertEquals(benefit2.getCalculationMethod().getName(), benefitService.getAllBenefit().get(1).getCalculationMethodDTO().getName());
     }
 
     @Test
@@ -65,7 +64,7 @@ public class BenefitServiceTest {
 
         Assertions.assertEquals("ABCD Award", benefitService.getBenefitById(5L).getName());
         Assertions.assertEquals("Dividends equivalent payment", benefitService.getBenefitById(6L).getName());
-        Assertions.assertEquals(benefit1.getBenefitType().getName(), benefitService.getBenefitById(5L).getBenefitType().getName());
+        Assertions.assertEquals(benefit1.getBenefitType().getName(), benefitService.getBenefitById(5L).getBenefitTypeDTO().getName());
     }
 
     @Test

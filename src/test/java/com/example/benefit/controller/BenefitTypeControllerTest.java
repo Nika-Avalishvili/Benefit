@@ -91,12 +91,10 @@ public class BenefitTypeControllerTest {
     }
 
     @Test
-    void addOrUpdateBenefitType() throws Exception {
+    void addBenefitType() throws Exception {
         BenefitTypeDTO benefitTypeDTO = BenefitTypeDTO.builder()
                 .name("Salary")
                 .build();
-
-        benefitTypeService.createAndUpdateBenefitType(benefitTypeDTO);
 
         String requestJson = objectMapper.writeValueAsString(benefitTypeDTO);
 
@@ -116,6 +114,31 @@ public class BenefitTypeControllerTest {
                 .isEqualTo(benefitTypeDTO);
     }
 
+    @Test
+    void updateBenefitType() throws Exception {
+        BenefitTypeDTO benefitTypeDTO = BenefitTypeDTO.builder()
+                .name("Salary")
+                .build();
+
+        benefitTypeService.createAndUpdateBenefitType(benefitTypeDTO);
+
+        String requestJson = objectMapper.writeValueAsString(benefitTypeDTO);
+
+        String responseAsAString = mockMvc.perform(MockMvcRequestBuilders.put("/benefitType")
+                        .contentType(APPLICATION_JSON)
+                        .content(requestJson))
+                .andExpect(status().isOk())
+                .andReturn().getResponse()
+                .getContentAsString();
+
+        BenefitTypeDTO actualBenefitTypeDTO = objectMapper.readValue(responseAsAString, new TypeReference<>() {
+        });
+
+        assertThat(actualBenefitTypeDTO)
+                .usingRecursiveComparison()
+                .ignoringFields("id")
+                .isEqualTo(benefitTypeDTO);
+    }
     @Test
     void deleteBenefitType() throws Exception {
         BenefitTypeDTO benefitTypeDTO1 = BenefitTypeDTO.builder()

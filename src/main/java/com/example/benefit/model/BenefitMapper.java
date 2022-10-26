@@ -1,19 +1,24 @@
 package com.example.benefit.model;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class BenefitMapper {
+
+    private final BenefitTypeMapper benefitTypeMapper;
+    private final CalculationMethodMapper calculationMethodMapper;
 
     public BenefitDTO entityToDto(Benefit benefit){
         return BenefitDTO.builder()
                 .id(benefit.getId())
                 .name(benefit.getName())
-                .benefitType(benefit.getBenefitType())
-                .calculationMethod(benefit.getCalculationMethod())
+                .benefitTypeDTO(benefitTypeMapper.entityToDto(benefit.getBenefitType()))
+                .calculationMethodDTO(calculationMethodMapper.entityToDto(benefit.getCalculationMethod()))
                 .build();
     }
 
@@ -25,8 +30,8 @@ public class BenefitMapper {
         return Benefit.builder()
                 .id(benefitDTO.getId())
                 .name(benefitDTO.getName())
-                .benefitType(benefitDTO.getBenefitType())
-                .calculationMethod(benefitDTO.getCalculationMethod())
+                .benefitType(benefitTypeMapper.dtoToEntity(benefitDTO.getBenefitTypeDTO()))
+                .calculationMethod(calculationMethodMapper.dtoToEntity(benefitDTO.getCalculationMethodDTO()))
                 .build();
     }
 

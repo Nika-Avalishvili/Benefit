@@ -90,7 +90,31 @@ public class CalculationMethodControllerTest {
     }
 
     @Test
-    void addOrUpdateCalculationMethod() throws Exception {
+    void addCalculationMethod() throws Exception {
+        CalculationMethodDTO calculationMethodDTO = CalculationMethodDTO.builder()
+                .name("Salary")
+                .build();
+
+        String requestJson = objectMapper.writeValueAsString(calculationMethodDTO);
+
+        String responseAsAString = mockMvc.perform(MockMvcRequestBuilders.post("/calculationMethod")
+                        .contentType(APPLICATION_JSON)
+                        .content(requestJson))
+                .andExpect(status().isOk())
+                .andReturn().getResponse()
+                .getContentAsString();
+
+        CalculationMethodDTO actualCalculationMethodDTO = objectMapper.readValue(responseAsAString, new TypeReference<>() {
+        });
+
+        assertThat(actualCalculationMethodDTO)
+                .usingRecursiveComparison()
+                .ignoringFields("id")
+                .isEqualTo(calculationMethodDTO);
+    }
+
+    @Test
+    void updateCalculationMethod() throws Exception {
         CalculationMethodDTO calculationMethodDTO = CalculationMethodDTO.builder()
                 .name("Salary")
                 .build();
@@ -99,7 +123,7 @@ public class CalculationMethodControllerTest {
 
         String requestJson = objectMapper.writeValueAsString(calculationMethodDTO);
 
-        String responseAsAString = mockMvc.perform(MockMvcRequestBuilders.post("/calculationMethod")
+        String responseAsAString = mockMvc.perform(MockMvcRequestBuilders.put("/calculationMethod")
                         .contentType(APPLICATION_JSON)
                         .content(requestJson))
                 .andExpect(status().isOk())
