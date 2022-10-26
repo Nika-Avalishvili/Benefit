@@ -1,6 +1,8 @@
 package com.example.benefit.service;
 
-import com.example.benefit.model.*;
+import com.example.benefit.model.BenefitType;
+import com.example.benefit.model.BenefitTypeDTO;
+import com.example.benefit.model.BenefitTypeMapper;
 import com.example.benefit.repository.BenefitTypeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,16 +22,16 @@ public class BenefitTypeService {
         return benefitTypeMapper.entityToDto(benefitType);
     }
 
-    public void deleteBenefitType(Long id){
+    public void deleteBenefitType(Long id) {
         benefitTypeRepository.deleteById(id);
     }
 
-    public List<BenefitTypeDTO> getAllBenefitType(){
+    public List<BenefitTypeDTO> getAllBenefitType() {
         List<BenefitType> benefitTypes = benefitTypeRepository.findAll();
         return benefitTypeMapper.entityToDto(benefitTypes);
     }
 
-    public BenefitTypeDTO getBenefitTypeById (Long id){
+    public BenefitTypeDTO getBenefitTypeById(Long id) {
         BenefitType benefitType = benefitTypeRepository.findById(id).orElseThrow();
         return benefitTypeMapper.entityToDto(benefitType);
     }

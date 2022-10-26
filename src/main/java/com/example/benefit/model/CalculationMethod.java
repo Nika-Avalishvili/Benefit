@@ -3,7 +3,10 @@ package com.example.benefit.model;
 
 import lombok.*;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
 @Getter
@@ -11,7 +14,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "calculation_method")
 public class CalculationMethod {
 //    Calculation method defines how the specific amount
 //    shall be taken into consideration when relevant person
@@ -19,7 +21,6 @@ public class CalculationMethod {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
     private String name;
 

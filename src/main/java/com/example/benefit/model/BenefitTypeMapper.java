@@ -8,25 +8,25 @@ import java.util.stream.Collectors;
 @Component
 public class BenefitTypeMapper {
 
-    public BenefitTypeDTO entityToDto(BenefitType benefitType){
+    public BenefitTypeDTO entityToDto(BenefitType benefitType) {
         return BenefitTypeDTO.builder()
                 .id(benefitType.getId())
                 .name(benefitType.getName())
                 .build();
     }
 
-    public List<BenefitTypeDTO> entityToDto (List<BenefitType> benefitTypes){
+    public List<BenefitTypeDTO> entityToDto(List<BenefitType> benefitTypes) {
         return benefitTypes.stream().map(this::entityToDto).collect(Collectors.toList());
     }
 
-    public BenefitType dtoToEntity(BenefitTypeDTO benefitTypeDTO){
+    public BenefitType dtoToEntity(BenefitTypeDTO benefitTypeDTO) {
         return BenefitType.builder()
                 .id(benefitTypeDTO.getId())
                 .name(benefitTypeDTO.getName())
                 .build();
     }
 
-    public List<BenefitType> dtoToEntity(List<BenefitTypeDTO> benefitTypeDTOS){
+    public List<BenefitType> dtoToEntity(List<BenefitTypeDTO> benefitTypeDTOS) {
         return benefitTypeDTOS.stream().map(this::dtoToEntity).collect(Collectors.toList());
     }
 

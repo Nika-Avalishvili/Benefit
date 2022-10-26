@@ -6,7 +6,6 @@ import com.example.benefit.model.BenefitMapper;
 import com.example.benefit.repository.BenefitRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,16 +22,16 @@ public class BenefitService {
         return benefitMapper.entityToDto(benefit);
     }
 
-    public void deleteBenefit(Long id){
+    public void deleteBenefit(Long id) {
         benefitRepository.deleteById(id);
     }
 
-    public List<BenefitDTO> getAllBenefit(){
+    public List<BenefitDTO> getAllBenefit() {
         List<Benefit> benefits = benefitRepository.findAll();
         return benefitMapper.entityToDto(benefits);
     }
 
-    public BenefitDTO getBenefitById (Long id){
+    public BenefitDTO getBenefitById(Long id) {
         Benefit benefit = benefitRepository.findById(id).orElseThrow();
         return benefitMapper.entityToDto(benefit);
     }

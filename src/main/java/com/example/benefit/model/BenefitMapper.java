@@ -13,7 +13,7 @@ public class BenefitMapper {
     private final BenefitTypeMapper benefitTypeMapper;
     private final CalculationMethodMapper calculationMethodMapper;
 
-    public BenefitDTO entityToDto(Benefit benefit){
+    public BenefitDTO entityToDto(Benefit benefit) {
         return BenefitDTO.builder()
                 .id(benefit.getId())
                 .name(benefit.getName())
@@ -22,11 +22,11 @@ public class BenefitMapper {
                 .build();
     }
 
-    public List<BenefitDTO> entityToDto(List<Benefit> benefits){
+    public List<BenefitDTO> entityToDto(List<Benefit> benefits) {
         return benefits.stream().map(this::entityToDto).collect(Collectors.toList());
     }
 
-    public Benefit dtoToEntity(BenefitDTO benefitDTO){
+    public Benefit dtoToEntity(BenefitDTO benefitDTO) {
         return Benefit.builder()
                 .id(benefitDTO.getId())
                 .name(benefitDTO.getName())
@@ -35,7 +35,7 @@ public class BenefitMapper {
                 .build();
     }
 
-    public List<Benefit> dtoToEntity(List<BenefitDTO> benefitDTOs){
+    public List<Benefit> dtoToEntity(List<BenefitDTO> benefitDTOs) {
         return benefitDTOs.stream().map(this::dtoToEntity).collect(Collectors.toList());
     }
 
