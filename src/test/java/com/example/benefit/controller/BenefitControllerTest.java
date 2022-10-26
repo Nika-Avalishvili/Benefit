@@ -1,6 +1,6 @@
 package com.example.benefit.controller;
 
-import com.example.benefit.model.BenefitDTO;
+import com.example.benefit.model.*;
 import com.example.benefit.repository.BenefitRepository;
 import com.example.benefit.service.BenefitService;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -45,10 +45,22 @@ public class BenefitControllerTest {
 
     @Test
     void getAllBenefits() throws Exception {
-        BenefitDTO benefitDTO = BenefitDTO.builder().name("Salary").build();
+        BenefitType benefitType = BenefitType.builder()
+                .name("Accrual")
+                .build();
+
+        CalculationMethod calculationMethod = CalculationMethod.builder()
+                .name("Gross")
+                .build();
+
+        BenefitDTO benefitDTO = BenefitDTO.builder()
+                .name("Salary")
+                .benefitType(benefitType)
+                .calculationMethod(calculationMethod)
+                .build();
 
         benefitService.createAndUpdateBenefit(benefitDTO);
-        List<BenefitDTO> expecdtedBenefitDTOList = List.of(benefitDTO);
+        List<BenefitDTO> expectedBenefitDTOList = List.of(benefitDTO);
 
         String responseAsAString = mockMvc.perform(MockMvcRequestBuilders.get("/benefit"))
                 .andExpect(status().isOk())
@@ -57,22 +69,38 @@ public class BenefitControllerTest {
         List<BenefitDTO> actualBenefitDTOList = objectMapper.readValue(responseAsAString, new TypeReference<>() {
         });
 
-        Assertions.assertEquals(1, expecdtedBenefitDTOList.size());
+        Assertions.assertEquals(1, expectedBenefitDTOList.size());
         Assertions.assertEquals(1, actualBenefitDTOList.size());
 
-        BenefitDTO expectedBenefitDto = expecdtedBenefitDTOList.stream().findFirst().orElseThrow();
+        BenefitDTO expectedBenefitDto = expectedBenefitDTOList.stream().findFirst().orElseThrow();
         BenefitDTO actualBenefitDto = actualBenefitDTOList.stream().findFirst().orElseThrow();
 
         assertThat(expectedBenefitDto)
                 .usingRecursiveComparison()
                 .ignoringFields("id")
                 .isEqualTo(actualBenefitDto);
+
+        Assertions.assertEquals(expectedBenefitDto.getBenefitType().getName(),actualBenefitDto.getBenefitType().getName());
+        Assertions.assertEquals(expectedBenefitDto.getCalculationMethod().getName(),actualBenefitDto.getCalculationMethod().getName());
+
     }
 
 
     @Test
     void getBenefitById() throws Exception {
-        BenefitDTO benefitDTO = BenefitDTO.builder().name("Salary").build();
+        BenefitType benefitType = BenefitType.builder()
+                .name("Deduction")
+                .build();
+
+        CalculationMethod calculationMethod = CalculationMethod.builder()
+                .name("Net")
+                .build();
+
+        BenefitDTO benefitDTO = BenefitDTO.builder()
+                .name("Salary")
+                .benefitType(benefitType)
+                .calculationMethod(calculationMethod)
+                .build();
 
         Long id = benefitService.createAndUpdateBenefit(benefitDTO).getId();
 
@@ -88,15 +116,27 @@ public class BenefitControllerTest {
                 .usingRecursiveComparison()
                 .ignoringFields("id")
                 .isEqualTo(benefitDTO);
+
+        Assertions.assertEquals(benefitDTO.getBenefitType().getName(),actualBenefitDTO.getBenefitType().getName());
+        Assertions.assertEquals(benefitDTO.getCalculationMethod().getName(),actualBenefitDTO.getCalculationMethod().getName());
+
     }
 
     @Test
-    void addOrUpdateBenefit() throws Exception {
-        BenefitDTO benefitDTO = BenefitDTO.builder()
-                .name("Salary")
+    void addBenefit() throws Exception {
+        BenefitType benefitType = BenefitType.builder()
+                .name("Deduction")
                 .build();
 
-        benefitService.createAndUpdateBenefit(benefitDTO);
+        CalculationMethod calculationMethod = CalculationMethod.builder()
+                .name("Net")
+                .build();
+
+        BenefitDTO benefitDTO = BenefitDTO.builder()
+                .name("Salary")
+                .benefitType(benefitType)
+                .calculationMethod(calculationMethod)
+                .build();
 
         String requestJson = objectMapper.writeValueAsString(benefitDTO);
 
@@ -112,17 +152,82 @@ public class BenefitControllerTest {
 
         assertThat(actualBenefitDTO)
                 .usingRecursiveComparison()
-                .ignoringFields("id")
+                .ignoringFields("id", "benefitType.id","calculationMethod.id")
                 .isEqualTo(benefitDTO);
+
+        Assertions.assertEquals(benefitDTO.getBenefitType().getName(),actualBenefitDTO.getBenefitType().getName());
+        Assertions.assertEquals(benefitDTO.getCalculationMethod().getName(),actualBenefitDTO.getCalculationMethod().getName());
     }
 
     @Test
+    void updateBenefit() throws Exception {
+        BenefitType benefitType = BenefitType.builder()
+                .name("Deduction")
+                .build();
+
+        CalculationMethod calculationMethod = CalculationMethod.builder()
+                .name("Net")
+                .build();
+
+        BenefitDTO benefitDTO = BenefitDTO.builder()
+                .name("Salary")
+                .benefitType(benefitType)
+                .calculationMethod(calculationMethod)
+                .build();
+
+        benefitService.createAndUpdateBenefit(benefitDTO);
+
+        benefitDTO.setName("Bonus");
+
+        String requestJson = objectMapper.writeValueAsString(benefitDTO);
+
+        String responseAsAString = mockMvc.perform(MockMvcRequestBuilders.put("/benefit")
+                        .contentType(APPLICATION_JSON)
+                        .content(requestJson))
+                .andExpect(status().isOk())
+                .andReturn().getResponse()
+                .getContentAsString();
+
+        BenefitDTO actualBenefitDTO = objectMapper.readValue(responseAsAString, new TypeReference<>() {
+        });
+
+        assertThat(actualBenefitDTO)
+                .usingRecursiveComparison()
+                .ignoringFields("id", "benefitType.id","calculationMethod.id")
+                .isEqualTo(benefitDTO);
+
+        Assertions.assertEquals(benefitDTO.getBenefitType().getName(),actualBenefitDTO.getBenefitType().getName());
+        Assertions.assertEquals(benefitDTO.getCalculationMethod().getName(),actualBenefitDTO.getCalculationMethod().getName());
+    }
+
+
+    @Test
     void deleteBenefit() throws Exception {
+        BenefitType benefitType1 = BenefitType.builder()
+                .name("Accrual")
+                .build();
+
+        BenefitType benefitType2 = BenefitType.builder()
+                .name("Deduction")
+                .build();
+
+        CalculationMethod calculationMethod1 = CalculationMethod.builder()
+                .name("Gross")
+                .build();
+
+        CalculationMethod calculationMethod2 = CalculationMethod.builder()
+                .name("Net")
+                .build();
+
         BenefitDTO benefitDTO1 = BenefitDTO.builder()
                 .name("Meal allowance")
+                .benefitType(benefitType1)
+                .calculationMethod(calculationMethod1)
                 .build();
         BenefitDTO benefitDTO2 = BenefitDTO.builder()
                 .name("Car allowance")
+                .benefitType(benefitType2)
+                .calculationMethod(calculationMethod2)
                 .build();
 
         Long firstId = benefitService.createAndUpdateBenefit(benefitDTO1).getId();
@@ -150,6 +255,10 @@ public class BenefitControllerTest {
                 .usingRecursiveComparison()
                 .ignoringFields("id")
                 .isEqualTo(benefitDTO2);
+
+        Assertions.assertEquals(benefitDTO2.getBenefitType().getName(),actualBenefitDTO.getBenefitType().getName());
+        Assertions.assertEquals(benefitDTO2.getCalculationMethod().getName(),actualBenefitDTO.getCalculationMethod().getName());
+
     }
 
 }

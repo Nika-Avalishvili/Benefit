@@ -2,10 +2,7 @@ package com.example.benefit.model;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Builder
@@ -13,11 +10,20 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @Getter
 @Setter
+@Table(name = "benefit")
 public class Benefit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "fk_ben_type_id")
+    private BenefitType benefitType;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "fk_calc_method_id")
+    private CalculationMethod calculationMethod;
 
 }

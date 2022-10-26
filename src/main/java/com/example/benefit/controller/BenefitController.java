@@ -14,17 +14,17 @@ public class BenefitController {
     private final BenefitService benefitService;
 
     @PostMapping("/benefit")
-    public @ResponseBody BenefitDTO addBenefit(@RequestBody BenefitDTO benefitDTO){
+    public @ResponseBody BenefitDTO addBenefit(@RequestBody BenefitDTO benefitDTO) {
         return benefitService.createAndUpdateBenefit(benefitDTO);
     }
 
     @PutMapping("/benefit")
-    public BenefitDTO updateBenefit(@RequestBody BenefitDTO benefitDTO){
+    public BenefitDTO updateBenefit(@RequestBody BenefitDTO benefitDTO) {
         return benefitService.createAndUpdateBenefit(benefitDTO);
     }
 
     @GetMapping("/benefit")
-    public List<BenefitDTO> getAllBenefits(){
+    public List<BenefitDTO> getAllBenefits() {
         return benefitService.getAllBenefit();
     }
 
@@ -34,9 +34,8 @@ public class BenefitController {
     }
 
     @DeleteMapping("/benefit")
-    public void deleteBenefit(@RequestParam (value = "id") Long id) {
+    public void deleteBenefit(@RequestParam(value = "id") Long id) {
         benefitService.deleteBenefit(id);
     }
-
 
 }

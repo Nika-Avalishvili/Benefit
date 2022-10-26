@@ -12,6 +12,8 @@ public class BenefitMapper {
         return BenefitDTO.builder()
                 .id(benefit.getId())
                 .name(benefit.getName())
+                .benefitType(benefit.getBenefitType())
+                .calculationMethod(benefit.getCalculationMethod())
                 .build();
     }
 
@@ -23,6 +25,8 @@ public class BenefitMapper {
         return Benefit.builder()
                 .id(benefitDTO.getId())
                 .name(benefitDTO.getName())
+                .benefitType(benefitDTO.getBenefitType())
+                .calculationMethod(benefitDTO.getCalculationMethod())
                 .build();
     }
 

@@ -1,8 +1,6 @@
 package com.example.benefit.service;
 
-import com.example.benefit.model.Benefit;
-import com.example.benefit.model.BenefitDTO;
-import com.example.benefit.model.BenefitMapper;
+import com.example.benefit.model.*;
 import com.example.benefit.repository.BenefitRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,37 +33,44 @@ public class BenefitServiceTest {
 
     @Test
     void createAndUpdateBenefit() {
-        BenefitDTO benefitDTO = new BenefitDTO(1L, "Salary");
+        BenefitDTO benefitDTO = new BenefitDTO(1L, "Salary", new BenefitType(1L, "Accrual"), new CalculationMethod(2L, "Gross"));
         Mockito.when(benefitRepository.save(any())).thenAnswer(invocationOnMock -> invocationOnMock.getArgument(0));
 
         BenefitDTO actualDTO = benefitService.createAndUpdateBenefit(benefitDTO);
 
         Assertions.assertEquals(benefitDTO, actualDTO);
+        Assertions.assertEquals(benefitDTO.getBenefitType(), actualDTO.getBenefitType());
+        Assertions.assertEquals("Accrual", actualDTO.getBenefitType().getName());
+        Assertions.assertEquals("Gross", actualDTO.getCalculationMethod().getName());
     }
 
     @Test
     void findAllBenefits() {
-        Benefit benefit1 = new Benefit(5L, "ABCD Award");
-        Benefit benefit2 = new Benefit(6L, "Dividends equivalent payment");
+        Benefit benefit1 = new Benefit(5L, "ABCD Award",  new BenefitType(1L,"Deduction"), new CalculationMethod());
+        Benefit benefit2 = new Benefit(6L, "Dividends equivalent payment", new BenefitType(), new CalculationMethod(1L,"Gross"));
         Mockito.when(benefitRepository.findAll()).thenReturn(List.of(benefit1, benefit2));
 
 
         Assertions.assertEquals(2, benefitService.getAllBenefit().size());
+        Assertions.assertEquals(benefit1.getBenefitType().getName(), benefitService.getAllBenefit().stream().findFirst().get().getBenefitType().getName());
+        Assertions.assertEquals(benefit2.getCalculationMethod().getName(), benefitService.getAllBenefit().get(1).getCalculationMethod().getName());
+
     }
 
     @Test
-    void findEmployeeById() {
-        Benefit benefit1 = new Benefit(5L, "ABCD Award");
-        Benefit benefit2 = new Benefit(6L, "Dividends equivalent payment");
+    void findBenefitById() {
+        Benefit benefit1 = new Benefit(5L, "ABCD Award", new BenefitType(2L,"Accrual"), new CalculationMethod());
+        Benefit benefit2 = new Benefit(6L, "Dividends equivalent payment", new BenefitType(), new CalculationMethod());
         Mockito.when(benefitRepository.findById(anyLong())).thenAnswer(invocationOnMock -> Stream.of(benefit1, benefit2).filter(e -> e.getId().equals(invocationOnMock.getArgument(0))).findFirst());
 
         Assertions.assertEquals("ABCD Award", benefitService.getBenefitById(5L).getName());
         Assertions.assertEquals("Dividends equivalent payment", benefitService.getBenefitById(6L).getName());
+        Assertions.assertEquals(benefit1.getBenefitType().getName(), benefitService.getBenefitById(5L).getBenefitType().getName());
     }
 
     @Test
-    void deleteEmployee() {
-        Benefit benefit1 = new Benefit(5L, "ABCD Award");
+    void deleteBenefit() {
+        Benefit benefit1 = new Benefit(5L, "ABCD Award", new BenefitType(), new CalculationMethod());
         benefitService.deleteBenefit(5L);
         Mockito.verify(benefitRepository, times(1)).deleteById(5L);
     }
