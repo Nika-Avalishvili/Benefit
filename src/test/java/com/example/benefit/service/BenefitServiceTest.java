@@ -2,6 +2,8 @@ package com.example.benefit.service;
 
 import com.example.benefit.model.*;
 import com.example.benefit.repository.BenefitRepository;
+import com.example.benefit.repository.BenefitTypeRepository;
+import com.example.benefit.repository.CalculationMethodRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,11 +26,15 @@ public class BenefitServiceTest {
     BenefitRepository benefitRepository;
     BenefitMapper benefitMapper;
     BenefitService benefitService;
+    @Mock
+    BenefitTypeRepository benefitTypeRepository;
+    @Mock
+    CalculationMethodRepository calculationMethodRepository;
 
     @BeforeEach
     void setUp() {
         benefitMapper = new BenefitMapper(new BenefitTypeMapper(), new CalculationMethodMapper());
-        benefitService = new BenefitService(benefitRepository, benefitMapper);
+        benefitService = new BenefitService(benefitRepository, benefitMapper, benefitTypeRepository, calculationMethodRepository);
     }
 
     @Test

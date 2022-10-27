@@ -17,8 +17,12 @@ public class CalculationMethodService {
 
     public CalculationMethodDTO createAndUpdateCalculationMethod(CalculationMethodDTO calculationMethodDTO) {
         CalculationMethod calculationMethod = calculationMethodMapper.dtoToEntity(calculationMethodDTO);
-        calculationMethodRepository.save(calculationMethod);
-        return calculationMethodMapper.entityToDto(calculationMethod);
+        if (calculationMethodRepository.findByName(calculationMethod.getName()) == null) {
+            calculationMethodRepository.save(calculationMethod);
+            return calculationMethodMapper.entityToDto(calculationMethod);
+        } else {
+            return calculationMethodMapper.entityToDto(calculationMethodRepository.findByName(calculationMethod.getName()));
+        }
     }
 
     public void deleteCalculationMethod(Long id) {

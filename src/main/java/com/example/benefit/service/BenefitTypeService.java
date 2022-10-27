@@ -18,8 +18,12 @@ public class BenefitTypeService {
 
     public BenefitTypeDTO createAndUpdateBenefitType(BenefitTypeDTO benefitTypeDTO) {
         BenefitType benefitType = benefitTypeMapper.dtoToEntity(benefitTypeDTO);
-        benefitTypeRepository.save(benefitType);
-        return benefitTypeMapper.entityToDto(benefitType);
+        if (benefitTypeRepository.findByName(benefitType.getName()) == null) {
+            benefitTypeRepository.save(benefitType);
+            return benefitTypeMapper.entityToDto(benefitType);
+        } else {
+            return benefitTypeMapper.entityToDto(benefitTypeRepository.findByName(benefitType.getName()));
+        }
     }
 
     public void deleteBenefitType(Long id) {
