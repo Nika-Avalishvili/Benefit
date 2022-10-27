@@ -14,12 +14,9 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @Builder
 public class BenefitType {
-//    Benefits can be Accrual or Deduction,
-//    so it will increase employees salaries or reduce it.
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long typeId;
     private String name;
 
 }

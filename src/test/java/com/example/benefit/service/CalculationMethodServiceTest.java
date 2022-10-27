@@ -57,7 +57,7 @@ public class CalculationMethodServiceTest {
     void findCalculationMethodById() {
         CalculationMethod calculationMethod1 = new CalculationMethod(5L, "ABCD Award");
         CalculationMethod calculationMethod2 = new CalculationMethod(6L, "Dividends equivalent payment");
-        Mockito.when(calculationMethodRepository.findById(anyLong())).thenAnswer(invocationOnMock -> Stream.of(calculationMethod1, calculationMethod2).filter(e -> e.getId().equals(invocationOnMock.getArgument(0))).findFirst());
+        Mockito.when(calculationMethodRepository.findById(anyLong())).thenAnswer(invocationOnMock -> Stream.of(calculationMethod1, calculationMethod2).filter(e -> e.getMethodId().equals(invocationOnMock.getArgument(0))).findFirst());
 
         Assertions.assertEquals("ABCD Award", calculationMethodService.getCalculationMethodById(5L).getName());
         Assertions.assertEquals("Dividends equivalent payment", calculationMethodService.getCalculationMethodById(6L).getName());

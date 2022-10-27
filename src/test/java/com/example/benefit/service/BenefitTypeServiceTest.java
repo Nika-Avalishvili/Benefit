@@ -57,7 +57,7 @@ public class BenefitTypeServiceTest {
     void findBenefitTypeById() {
         BenefitType benefitType1 = new BenefitType(5L, "ABCD Award");
         BenefitType benefitType2 = new BenefitType(6L, "Dividends equivalent payment");
-        Mockito.when(benefitTypeRepository.findById(anyLong())).thenAnswer(invocationOnMock -> Stream.of(benefitType1, benefitType2).filter(e -> e.getId().equals(invocationOnMock.getArgument(0))).findFirst());
+        Mockito.when(benefitTypeRepository.findById(anyLong())).thenAnswer(invocationOnMock -> Stream.of(benefitType1, benefitType2).filter(e -> e.getTypeId().equals(invocationOnMock.getArgument(0))).findFirst());
 
         Assertions.assertEquals("ABCD Award", benefitTypeService.getBenefitTypeById(5L).getName());
         Assertions.assertEquals("Dividends equivalent payment", benefitTypeService.getBenefitTypeById(6L).getName());

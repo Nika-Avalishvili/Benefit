@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class BenefitTypeDTO {
-    private Long id;
+    private Long typeId;
     private String name;
 }

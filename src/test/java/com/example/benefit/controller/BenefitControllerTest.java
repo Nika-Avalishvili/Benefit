@@ -1,6 +1,8 @@
 package com.example.benefit.controller;
 
-import com.example.benefit.model.*;
+import com.example.benefit.model.BenefitDTO;
+import com.example.benefit.model.BenefitTypeDTO;
+import com.example.benefit.model.CalculationMethodDTO;
 import com.example.benefit.repository.BenefitRepository;
 import com.example.benefit.service.BenefitService;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -77,11 +79,11 @@ public class BenefitControllerTest {
 
         assertThat(expectedBenefitDto)
                 .usingRecursiveComparison()
-                .ignoringFields("id","benefitTypeDTO.id","calculationMethodDTO.id")
+                .ignoringFields("id", "benefitTypeDTO.typeId", "calculationMethodDTO.methodId")
                 .isEqualTo(actualBenefitDto);
 
-        Assertions.assertEquals(expectedBenefitDto.getBenefitTypeDTO().getName(),actualBenefitDto.getBenefitTypeDTO().getName());
-        Assertions.assertEquals(expectedBenefitDto.getCalculationMethodDTO().getName(),actualBenefitDto.getCalculationMethodDTO().getName());
+        Assertions.assertEquals(expectedBenefitDto.getBenefitTypeDTO().getName(), actualBenefitDto.getBenefitTypeDTO().getName());
+        Assertions.assertEquals(expectedBenefitDto.getCalculationMethodDTO().getName(), actualBenefitDto.getCalculationMethodDTO().getName());
 
     }
 
@@ -114,11 +116,11 @@ public class BenefitControllerTest {
 
         assertThat(actualBenefitDTO)
                 .usingRecursiveComparison()
-                .ignoringFields("id","benefitTypeDTO.id","calculationMethodDTO.id")
+                .ignoringFields("id", "benefitTypeDTO.typeId", "calculationMethodDTO.methodId")
                 .isEqualTo(benefitDTO);
 
-        Assertions.assertEquals(benefitDTO.getBenefitTypeDTO().getName(),actualBenefitDTO.getBenefitTypeDTO().getName());
-        Assertions.assertEquals(benefitDTO.getCalculationMethodDTO().getName(),actualBenefitDTO.getCalculationMethodDTO().getName());
+        Assertions.assertEquals(benefitDTO.getBenefitTypeDTO().getName(), actualBenefitDTO.getBenefitTypeDTO().getName());
+        Assertions.assertEquals(benefitDTO.getCalculationMethodDTO().getName(), actualBenefitDTO.getCalculationMethodDTO().getName());
 
     }
 
@@ -152,11 +154,11 @@ public class BenefitControllerTest {
 
         assertThat(actualBenefitDTO)
                 .usingRecursiveComparison()
-                .ignoringFields("id", "benefitTypeDTO.id","calculationMethodDTO.id")
+                .ignoringFields("id", "benefitTypeDTO.typeId", "calculationMethodDTO.methodId")
                 .isEqualTo(benefitDTO);
 
-        Assertions.assertEquals(benefitDTO.getBenefitTypeDTO().getName(),actualBenefitDTO.getBenefitTypeDTO().getName());
-        Assertions.assertEquals(benefitDTO.getCalculationMethodDTO().getName(),actualBenefitDTO.getCalculationMethodDTO().getName());
+        Assertions.assertEquals(benefitDTO.getBenefitTypeDTO().getName(), actualBenefitDTO.getBenefitTypeDTO().getName());
+        Assertions.assertEquals(benefitDTO.getCalculationMethodDTO().getName(), actualBenefitDTO.getCalculationMethodDTO().getName());
     }
 
     @Test
@@ -193,11 +195,11 @@ public class BenefitControllerTest {
 
         assertThat(actualBenefitDTO)
                 .usingRecursiveComparison()
-                .ignoringFields("id", "benefitTypeDTO.id","calculationMethodDTO.id")
+                .ignoringFields("id", "benefitTypeDTO.typeId", "calculationMethodDTO.methodId")
                 .isEqualTo(benefitDTO);
 
-        Assertions.assertEquals(benefitDTO.getBenefitTypeDTO().getName(),actualBenefitDTO.getBenefitTypeDTO().getName());
-        Assertions.assertEquals(benefitDTO.getCalculationMethodDTO().getName(),actualBenefitDTO.getCalculationMethodDTO().getName());
+        Assertions.assertEquals(benefitDTO.getBenefitTypeDTO().getName(), actualBenefitDTO.getBenefitTypeDTO().getName());
+        Assertions.assertEquals(benefitDTO.getCalculationMethodDTO().getName(), actualBenefitDTO.getCalculationMethodDTO().getName());
     }
 
 
@@ -246,18 +248,18 @@ public class BenefitControllerTest {
 
         assertThat(actualBenefitDTOList)
                 .hasSize(1)
-                .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id","benefitTypeDTO.id","calculationMethodDTO.id")
+                .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "benefitTypeDTO.typeId", "calculationMethodDTO.methodId")
                 .doesNotContain(benefitDTO1);
 
         BenefitDTO actualBenefitDTO = actualBenefitDTOList.stream().findFirst().orElseThrow();
 
         assertThat(actualBenefitDTO)
                 .usingRecursiveComparison()
-                .ignoringFields("id","benefitTypeDTO.id","calculationMethodDTO.id")
+                .ignoringFields("id", "benefitTypeDTO.typeId", "calculationMethodDTO.methodId")
                 .isEqualTo(benefitDTO2);
 
-        Assertions.assertEquals(benefitDTO2.getBenefitTypeDTO().getName(),actualBenefitDTO.getBenefitTypeDTO().getName());
-        Assertions.assertEquals(benefitDTO2.getCalculationMethodDTO().getName(),actualBenefitDTO.getCalculationMethodDTO().getName());
+        Assertions.assertEquals(benefitDTO2.getBenefitTypeDTO().getName(), actualBenefitDTO.getBenefitTypeDTO().getName());
+        Assertions.assertEquals(benefitDTO2.getCalculationMethodDTO().getName(), actualBenefitDTO.getCalculationMethodDTO().getName());
 
     }
 

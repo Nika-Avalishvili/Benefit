@@ -2,12 +2,15 @@
 
 -- changeset nika.avalishvili:1
 ALTER TABLE benefit
-    ADD CONSTRAINT fk_ben_type_id
-          FOREIGN KEY (id)
-            REFERENCES benefit_type(id)
+    ADD CONSTRAINT fk_benefit_type
+          FOREIGN KEY (type_id)
+            REFERENCES benefit_type(type_id)
+            ON DELETE SET NULL
 
 -- changeset nika.avalishvili:2
 ALTER TABLE benefit
-    ADD CONSTRAINT fk_calc_method_id
-          FOREIGN KEY (id)
-            REFERENCES calculation_method(id)
+    ADD CONSTRAINT fk_calculation_method
+          FOREIGN KEY (method_id)
+            REFERENCES calculation_method(method_id)
+            ON DELETE SET NULL
+

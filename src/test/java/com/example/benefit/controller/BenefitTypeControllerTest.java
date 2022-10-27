@@ -65,7 +65,7 @@ public class BenefitTypeControllerTest {
 
         assertThat(expectedBenefitTypeDto)
                 .usingRecursiveComparison()
-                .ignoringFields("id")
+                .ignoringFields("typeId")
                 .isEqualTo(actualBenefitTypeDto);
     }
 
@@ -74,7 +74,7 @@ public class BenefitTypeControllerTest {
     void getBenefitTypeById() throws Exception {
         BenefitTypeDTO benefitTypeDTO = BenefitTypeDTO.builder().name("Salary").build();
 
-        Long id = benefitTypeService.createAndUpdateBenefitType(benefitTypeDTO).getId();
+        Long id = benefitTypeService.createAndUpdateBenefitType(benefitTypeDTO).getTypeId();
 
         String responseAsAString = mockMvc.perform(MockMvcRequestBuilders.get("/benefitType/{id}", id))
                 .andExpect(status().isOk())
@@ -86,7 +86,7 @@ public class BenefitTypeControllerTest {
 
         assertThat(actualBenefitTypeDTO)
                 .usingRecursiveComparison()
-                .ignoringFields("id")
+                .ignoringFields("typeId")
                 .isEqualTo(benefitTypeDTO);
     }
 
@@ -110,7 +110,7 @@ public class BenefitTypeControllerTest {
 
         assertThat(actualBenefitTypeDTO)
                 .usingRecursiveComparison()
-                .ignoringFields("id")
+                .ignoringFields("typeId")
                 .isEqualTo(benefitTypeDTO);
     }
 
@@ -136,9 +136,10 @@ public class BenefitTypeControllerTest {
 
         assertThat(actualBenefitTypeDTO)
                 .usingRecursiveComparison()
-                .ignoringFields("id")
+                .ignoringFields("typeId")
                 .isEqualTo(benefitTypeDTO);
     }
+
     @Test
     void deleteBenefitType() throws Exception {
         BenefitTypeDTO benefitTypeDTO1 = BenefitTypeDTO.builder()
@@ -148,7 +149,7 @@ public class BenefitTypeControllerTest {
                 .name("Car allowance")
                 .build();
 
-        Long firstId = benefitTypeService.createAndUpdateBenefitType(benefitTypeDTO1).getId();
+        Long firstId = benefitTypeService.createAndUpdateBenefitType(benefitTypeDTO1).getTypeId();
         benefitTypeService.createAndUpdateBenefitType(benefitTypeDTO2);
 
         String firstResponseAsAString = mockMvc.perform(MockMvcRequestBuilders.delete("/benefitType?id={id}", firstId))
@@ -164,14 +165,14 @@ public class BenefitTypeControllerTest {
 
         assertThat(actualBenefitTypeDTOList)
                 .hasSize(1)
-                .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+                .usingRecursiveFieldByFieldElementComparatorIgnoringFields("typeId")
                 .doesNotContain(benefitTypeDTO1);
 
         BenefitTypeDTO actualBenefitTypeDTO = actualBenefitTypeDTOList.stream().findFirst().orElseThrow();
 
         assertThat(actualBenefitTypeDTO)
                 .usingRecursiveComparison()
-                .ignoringFields("id")
+                .ignoringFields("typeId")
                 .isEqualTo(benefitTypeDTO2);
     }
 

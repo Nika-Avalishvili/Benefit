@@ -101,7 +101,6 @@
             <version>1.17.5</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 
     <build>

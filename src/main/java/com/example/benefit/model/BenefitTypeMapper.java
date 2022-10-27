@@ -10,7 +10,7 @@ public class BenefitTypeMapper {
 
     public BenefitTypeDTO entityToDto(BenefitType benefitType) {
         return BenefitTypeDTO.builder()
-                .id(benefitType.getId())
+                .typeId(benefitType.getTypeId())
                 .name(benefitType.getName())
                 .build();
     }
@@ -21,7 +21,7 @@ public class BenefitTypeMapper {
 
     public BenefitType dtoToEntity(BenefitTypeDTO benefitTypeDTO) {
         return BenefitType.builder()
-                .id(benefitTypeDTO.getId())
+                .typeId(benefitTypeDTO.getTypeId())
                 .name(benefitTypeDTO.getName())
                 .build();
     }

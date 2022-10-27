@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class CalculationMethodDTO {
-    private Long id;
+    private Long methodId;
     private String name;
 }

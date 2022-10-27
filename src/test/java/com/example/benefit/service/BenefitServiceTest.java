@@ -46,8 +46,8 @@ public class BenefitServiceTest {
 
     @Test
     void findAllBenefits() {
-        Benefit benefit1 = new Benefit(5L, "ABCD Award",  new BenefitType(1L,"Deduction"), new CalculationMethod());
-        Benefit benefit2 = new Benefit(6L, "Dividends equivalent payment", new BenefitType(), new CalculationMethod(1L,"Gross"));
+        Benefit benefit1 = new Benefit(5L, "ABCD Award", new BenefitType(1L, "Deduction"), new CalculationMethod());
+        Benefit benefit2 = new Benefit(6L, "Dividends equivalent payment", new BenefitType(), new CalculationMethod(1L, "Gross"));
         Mockito.when(benefitRepository.findAll()).thenReturn(List.of(benefit1, benefit2));
 
 
@@ -58,7 +58,7 @@ public class BenefitServiceTest {
 
     @Test
     void findBenefitById() {
-        Benefit benefit1 = new Benefit(5L, "ABCD Award", new BenefitType(2L,"Accrual"), new CalculationMethod());
+        Benefit benefit1 = new Benefit(5L, "ABCD Award", new BenefitType(2L, "Accrual"), new CalculationMethod());
         Benefit benefit2 = new Benefit(6L, "Dividends equivalent payment", new BenefitType(), new CalculationMethod());
         Mockito.when(benefitRepository.findById(anyLong())).thenAnswer(invocationOnMock -> Stream.of(benefit1, benefit2).filter(e -> e.getId().equals(invocationOnMock.getArgument(0))).findFirst());
 

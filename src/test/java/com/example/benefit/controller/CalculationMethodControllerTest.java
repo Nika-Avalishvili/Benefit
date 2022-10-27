@@ -64,7 +64,7 @@ public class CalculationMethodControllerTest {
 
         assertThat(expectedCalculationMethodDto)
                 .usingRecursiveComparison()
-                .ignoringFields("id")
+                .ignoringFields("methodId")
                 .isEqualTo(actualCalculationMethodDto);
     }
 
@@ -73,7 +73,7 @@ public class CalculationMethodControllerTest {
     void getCalculationMethodById() throws Exception {
         CalculationMethodDTO calculationMethodDTO = CalculationMethodDTO.builder().name("Salary").build();
 
-        Long id = calculationMethodService.createAndUpdateCalculationMethod(calculationMethodDTO).getId();
+        Long id = calculationMethodService.createAndUpdateCalculationMethod(calculationMethodDTO).getMethodId();
 
         String responseAsAString = mockMvc.perform(MockMvcRequestBuilders.get("/calculationMethod/{id}", id))
                 .andExpect(status().isOk())
@@ -85,7 +85,7 @@ public class CalculationMethodControllerTest {
 
         assertThat(actualCalculationMethodDTO)
                 .usingRecursiveComparison()
-                .ignoringFields("id")
+                .ignoringFields("methodId")
                 .isEqualTo(calculationMethodDTO);
     }
 
@@ -109,7 +109,7 @@ public class CalculationMethodControllerTest {
 
         assertThat(actualCalculationMethodDTO)
                 .usingRecursiveComparison()
-                .ignoringFields("id")
+                .ignoringFields("methodId")
                 .isEqualTo(calculationMethodDTO);
     }
 
@@ -135,7 +135,7 @@ public class CalculationMethodControllerTest {
 
         assertThat(actualCalculationMethodDTO)
                 .usingRecursiveComparison()
-                .ignoringFields("id")
+                .ignoringFields("methodId")
                 .isEqualTo(calculationMethodDTO);
     }
 
@@ -148,7 +148,7 @@ public class CalculationMethodControllerTest {
                 .name("Car allowance")
                 .build();
 
-        Long firstId = calculationMethodService.createAndUpdateCalculationMethod(calculationMethodDTO1).getId();
+        Long firstId = calculationMethodService.createAndUpdateCalculationMethod(calculationMethodDTO1).getMethodId();
         calculationMethodService.createAndUpdateCalculationMethod(calculationMethodDTO2);
 
         String firstResponseAsAString = mockMvc.perform(MockMvcRequestBuilders.delete("/calculationMethod?id={id}", firstId))
@@ -164,14 +164,14 @@ public class CalculationMethodControllerTest {
 
         assertThat(actualCalculationMethodDTOList)
                 .hasSize(1)
-                .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+                .usingRecursiveFieldByFieldElementComparatorIgnoringFields("methodId")
                 .doesNotContain(calculationMethodDTO1);
 
         CalculationMethodDTO actualCalculationMethodDTO = actualCalculationMethodDTOList.stream().findFirst().orElseThrow();
 
         assertThat(actualCalculationMethodDTO)
                 .usingRecursiveComparison()
-                .ignoringFields("id")
+                .ignoringFields("methodId")
                 .isEqualTo(calculationMethodDTO2);
     }
 

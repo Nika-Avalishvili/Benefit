@@ -10,7 +10,7 @@ public class CalculationMethodMapper {
 
     public CalculationMethod dtoToEntity(CalculationMethodDTO calculationMethodDTO) {
         return CalculationMethod.builder()
-                .id(calculationMethodDTO.getId())
+                .methodId(calculationMethodDTO.getMethodId())
                 .name(calculationMethodDTO.getName())
                 .build();
     }
@@ -22,7 +22,7 @@ public class CalculationMethodMapper {
 
     public CalculationMethodDTO entityToDto(CalculationMethod calculationMethod) {
         return CalculationMethodDTO.builder()
-                .id(calculationMethod.getId())
+                .methodId(calculationMethod.getMethodId())
                 .name(calculationMethod.getName())
                 .build();
     }
