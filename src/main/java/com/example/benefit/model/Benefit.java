@@ -18,11 +18,11 @@ public class Benefit {
     private String name;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "type_id")
+    @JoinColumn(name = "typeId")
     private BenefitType benefitType;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "method_id")
+    @JoinColumn(name = "methodId")
     private CalculationMethod calculationMethod;
 
 }
