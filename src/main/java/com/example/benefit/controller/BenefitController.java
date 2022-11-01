@@ -8,35 +8,35 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/benefit")
 @RequiredArgsConstructor
 public class BenefitController {
 
     private final BenefitService benefitService;
 
-    @PostMapping("/benefit")
-    public @ResponseBody BenefitDTO addBenefit(@RequestBody BenefitDTO benefitDTO){
+    @PostMapping
+    public @ResponseBody BenefitDTO addBenefit(@RequestBody BenefitDTO benefitDTO) {
         return benefitService.createAndUpdateBenefit(benefitDTO);
     }
 
-    @PutMapping("/benefit")
-    public BenefitDTO updateBenefit(@RequestBody BenefitDTO benefitDTO){
+    @PutMapping
+    public BenefitDTO updateBenefit(@RequestBody BenefitDTO benefitDTO) {
         return benefitService.createAndUpdateBenefit(benefitDTO);
     }
 
-    @GetMapping("/benefit")
-    public List<BenefitDTO> getAllBenefits(){
+    @GetMapping
+    public List<BenefitDTO> getAllBenefits() {
         return benefitService.getAllBenefit();
     }
 
-    @GetMapping("/benefit/{id}")
+    @GetMapping("/{id}")
     public BenefitDTO findById(@PathVariable Long id) {
         return benefitService.getBenefitById(id);
     }
 
-    @DeleteMapping("/benefit")
-    public void deleteBenefit(@RequestParam (value = "id") Long id) {
+    @DeleteMapping
+    public void deleteBenefit(@RequestParam(value = "id") Long id) {
         benefitService.deleteBenefit(id);
     }
-
 
 }

@@ -5,13 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class BenefitDTO {
-    private Long id;
+public class BenefitTypeDTO {
+    private Long typeId;
     private String name;
-    private BenefitTypeDTO benefitTypeDTO;
-    private CalculationMethodDTO calculationMethodDTO;
 }
