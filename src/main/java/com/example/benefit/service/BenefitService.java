@@ -1,5 +1,6 @@
 package com.example.benefit.service;
 
+import com.example.benefit.exceptionHandler.BenefitNotFoundException;
 import com.example.benefit.model.Benefit;
 import com.example.benefit.model.BenefitDTO;
 import com.example.benefit.model.BenefitMapper;
@@ -52,7 +53,8 @@ public class BenefitService {
     }
 
     public BenefitDTO getBenefitById(Long id) {
-        Benefit benefit = benefitRepository.findById(id).orElseThrow();
+        Benefit benefit = benefitRepository.findById(id)
+                .orElseThrow(BenefitNotFoundException::new);
         return benefitMapper.entityToDto(benefit);
     }
 }

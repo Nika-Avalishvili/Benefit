@@ -125,6 +125,32 @@ public class BenefitControllerTest {
     }
 
     @Test
+    void getBenefitByIdNotFoundTest() throws Exception {
+        BenefitTypeDTO benefitTypeDTO = BenefitTypeDTO.builder()
+                .name("Deduction")
+                .build();
+
+        CalculationMethodDTO calculationMethodDTO = CalculationMethodDTO.builder()
+                .name("Net")
+                .build();
+
+        BenefitDTO benefitDTO = BenefitDTO.builder()
+                .name("Salary")
+                .benefitTypeDTO(benefitTypeDTO)
+                .calculationMethodDTO(calculationMethodDTO)
+                .build();
+
+        Long id = benefitService.createAndUpdateBenefit(benefitDTO).getId();
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/benefit/{id}", id))
+                .andExpect(status().is(200));
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/benefit/{id}", 1500L))
+                .andExpect(status().is(404));
+
+    }
+
+    @Test
     void addBenefit() throws Exception {
         BenefitTypeDTO benefitTypeDTO = BenefitTypeDTO.builder()
                 .name("Deduction")
