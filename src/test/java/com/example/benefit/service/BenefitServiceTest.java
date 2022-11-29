@@ -11,6 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.cloud.stream.function.StreamBridge;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -30,11 +31,13 @@ public class BenefitServiceTest {
     BenefitTypeRepository benefitTypeRepository;
     @Mock
     CalculationMethodRepository calculationMethodRepository;
+    @Mock
+    StreamBridge streamBridge;
 
     @BeforeEach
     void setUp() {
         benefitMapper = new BenefitMapper(new BenefitTypeMapper(), new CalculationMethodMapper());
-        benefitService = new BenefitService(benefitRepository, benefitMapper, benefitTypeRepository, calculationMethodRepository);
+        benefitService = new BenefitService(benefitRepository, benefitMapper, benefitTypeRepository, calculationMethodRepository, streamBridge);
     }
 
     @Test
