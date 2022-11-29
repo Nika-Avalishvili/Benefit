@@ -26,6 +26,15 @@ public class BenefitService {
     private final CalculationMethodRepository calculationMethodRepository;
     private final StreamBridge streamBridge;
 
+    public BenefitDTOForMQ convertDtoToMQ(BenefitDTO benefitDTO){
+        return BenefitDTOForMQ.builder()
+                .id(benefitDTO.getId())
+                .name(benefitDTO.getName())
+                .benefitTypeName(benefitDTO.getBenefitTypeDTO().getName())
+                .calculationMethodName(benefitDTO.getCalculationMethodDTO().getName())
+                .build();
+    }
+
     public BenefitDTO createAndUpdateBenefit(BenefitDTO benefitDTO) {
         Benefit benefit = benefitMapper.dtoToEntity(benefitDTO);
 
@@ -39,17 +48,11 @@ public class BenefitService {
             benefit.setCalculationMethod(calculationMethodRepository.findByName(calculationMethodName));
         }
 
-        benefitRepository.save(benefit);
-
-        BenefitDTOForMQ benefitDTOForMQ = BenefitDTOForMQ.builder()
-                .id(benefit.getId())
-                .name(benefitDTO.getName())
-                .benefitTypeName(benefitDTO.getBenefitTypeDTO().getName())
-                .calculationMethodName(benefitDTO.getCalculationMethodDTO().getName())
-                .build();
-
-        streamBridge.send("benefit-out-0", benefitDTOForMQ);
-        return benefitMapper.entityToDto(benefit);
+        Benefit savedBenefit = benefitRepository.save(benefit);
+        BenefitDTO updatedBenefitDto = benefitMapper.entityToDto(savedBenefit);
+        
+        streamBridge.send("benefit-out-0", convertDtoToMQ(updatedBenefitDto));
+        return updatedBenefitDto;
     }
 
     public void deleteBenefit(Long id) {
