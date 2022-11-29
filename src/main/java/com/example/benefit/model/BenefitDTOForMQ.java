@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Builder
-public class BenefitDTOForRabbitMQ {
+public class BenefitDTOForMQ {
     private Long id;
     private String name;
     private String benefitTypeName;

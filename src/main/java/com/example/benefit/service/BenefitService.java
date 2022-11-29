@@ -3,7 +3,7 @@ package com.example.benefit.service;
 import com.example.benefit.exceptionHandler.BenefitNotFoundException;
 import com.example.benefit.model.Benefit;
 import com.example.benefit.model.BenefitDTO;
-import com.example.benefit.model.BenefitDTOForRabbitMQ;
+import com.example.benefit.model.BenefitDTOForMQ;
 import com.example.benefit.model.BenefitMapper;
 import com.example.benefit.repository.BenefitRepository;
 import com.example.benefit.repository.BenefitTypeRepository;
@@ -39,21 +39,17 @@ public class BenefitService {
             benefit.setCalculationMethod(calculationMethodRepository.findByName(calculationMethodName));
         }
 
-        BenefitDTOForRabbitMQ benefitDTOForRabbitMQ = BenefitDTOForRabbitMQ.builder()
-                .id(benefitDTO.getId())
+        benefitRepository.save(benefit);
+
+        BenefitDTOForMQ benefitDTOForMQ = BenefitDTOForMQ.builder()
+                .id(benefit.getId())
                 .name(benefitDTO.getName())
                 .benefitTypeName(benefitDTO.getBenefitTypeDTO().getName())
                 .calculationMethodName(benefitDTO.getCalculationMethodDTO().getName())
                 .build();
 
-        if (benefitRepository.findByName(benefit.getName()) == null) {
-            benefitRepository.save(benefit);
-            streamBridge.send("benefit-out-0",benefitDTOForRabbitMQ);
-            return benefitMapper.entityToDto(benefit);
-        } else {
-            streamBridge.send("benefit-out-0",benefitDTOForRabbitMQ);
-            return benefitMapper.entityToDto(benefitRepository.findByName(benefit.getName()));
-        }
+        streamBridge.send("benefit-out-0", benefitDTOForMQ);
+        return benefitMapper.entityToDto(benefitRepository.findByName(benefit.getName()));
     }
 
     public void deleteBenefit(Long id) {
