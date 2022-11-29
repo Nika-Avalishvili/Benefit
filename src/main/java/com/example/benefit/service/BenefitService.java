@@ -49,7 +49,7 @@ public class BenefitService {
                 .build();
 
         streamBridge.send("benefit-out-0", benefitDTOForMQ);
-        return benefitMapper.entityToDto(benefitRepository.findByName(benefit.getName()));
+        return benefitMapper.entityToDto(benefit);
     }
 
     public void deleteBenefit(Long id) {
